@@ -1,0 +1,14 @@
+{% extends "layout.html" %}
+
+{% block main %}
+    <h2>Add a Meal</h2>
+    <form action="/add" method="post" class="mt-4">
+        <div class="mb-3">
+            <input autocomplete="off" autofocus class="form-control mx-auto w-auto" name="food" placeholder="Food Name" type="text" required>
+        </div>
+        <div class="mb-3">
+            <input class="form-control mx-auto w-auto" name="calories" placeholder="Calories (e.g. 250)" type="number" required>
+        </div>
+        <button class="btn btn-primary" type="submit">Log Calories</button>
+    </form>
+{% endblock %}

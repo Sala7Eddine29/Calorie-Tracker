@@ -1,0 +1,23 @@
+{% extends "layout.html" %}
+
+{% block main %}
+    <h2>Today's Summary</h2>
+    <h3 class="text-primary">{{ total }} / 2000 Calories</h3>
+
+    <table class="table mt-4">
+        <thead>
+            <tr>
+                <th>Food Item</th>
+                <th>Calories</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for entry in entries %}
+            <tr>
+                <td>{{ entry.food_name }}</td>
+                <td>{{ entry.calories }} kcal</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
