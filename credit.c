@@ -17,11 +17,11 @@ int main(void)
     do
     {
         length++;
-        tempCard /=10; // 2312412412412412/10... 104/10 = 10.4.... 10, 104 % 10
+        tempCard /= 10; // 2312412412412412/10... 104/10 = 10.4.... 10, 104 % 10
     }
     while (tempCard > 0);
 
-    if (length != 13 && length != 15 && length !=16)
+    if (length != 13 && length != 15 && length != 16)
     {
         printf("INVALID\n");
         return 0;
@@ -40,13 +40,13 @@ int main(void)
 
         // for the last second and alt values, and add number*2's digits
         mod2 = tempCard % 10;
-        mod2 *=2; // 6*2 = 12
+        mod2 *= 2;      // 6*2 = 12
         d1 = mod2 / 10; // 12/10 = 1*2
         d2 = mod2 % 10;
         sum2 = sum2 + d1 + d2;
 
         // to remove the second last value
-        tempCard /=10;
+        tempCard /= 10;
     }
     while (tempCard > 0);
 
