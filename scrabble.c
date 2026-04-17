@@ -1,6 +1,6 @@
 #include <cs50.h>
-#include <stdio.h>
 #include <ctype.h>
+#include <stdio.h>
 #include <string.h>
 
 int main(void)
@@ -12,7 +12,8 @@ int main(void)
     // calculate points for both the users
     int score1 = 0, score2 = 0;
 
-    int points[26] = {1,3,3,	2,	1,	4,	2,	4,	1,	8,	5,	1,	3,	1,	1,	3,	10,	1,	1,	1,	1,	4,	4,	8,	4,	10 };
+    int points[26] = {1, 3, 3, 2,  1, 4, 2, 4, 1, 8, 5, 1, 3,
+                      1, 1, 3, 10, 1, 1, 1, 1, 4, 4, 8, 4, 10};
 
     for (int i = 0, n = strlen(player1); i < n; i++)
     {
