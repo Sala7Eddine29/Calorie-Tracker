@@ -33,7 +33,7 @@ int main(void)
     // output
     if (index < 1)
     {
-        printf("Before grade 1\n");
+        printf("Before Grade 1\n");
     }
     else if (index >= 16)
     {
