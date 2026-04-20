@@ -4,10 +4,21 @@
 #include <string.h>
 #include <ctype.h>
 
+// Function prototypes
+bool only_digits(string s);
+char rotate(char c, int key);
+
 int main(int argc, string argv[])
 {
-    // Check for correct number of arguments
+    // Ensure correct usage
     if (argc != 2)
+    {
+        printf("Usage: ./caesar key\n");
+        return 1;
+    }
+
+    // Validate that the argument is all digits
+    if (!only_digits(argv[1]))
     {
         printf("Usage: ./caesar key\n");
         return 1;
@@ -19,30 +30,48 @@ int main(int argc, string argv[])
     // Prompt user for plaintext
     string plaintext = get_string("plaintext: ");
 
+    // Print ciphertext label
     printf("ciphertext: ");
 
-    // Iterate over each character
+    // Loop through each character of plaintext
     for (int i = 0, n = strlen(plaintext); i < n; i++)
     {
         char c = plaintext[i];
-
-        if (isupper(c))
-        {
-            // Shift uppercase letters
-            printf("%c", ((c - 'A' + key) % 26) + 'A');
-        }
-        else if (islower(c))
-        {
-            // Shift lowercase letters
-            printf("%c", ((c - 'a' + key) % 26) + 'a');
-        }
-        else
-        {
-            // Leave non-alphabetical characters unchanged
-            printf("%c", c);
-        }
+        char encrypted = rotate(c, key);
+        printf("%c", encrypted);
     }
 
+    // Print newline at end
     printf("\n");
     return 0;
+}
+
+// Check if string contains only digits
+bool only_digits(string s)
+{
+    for (int i = 0, n = strlen(s); i < n; i++)
+    {
+        if (!isdigit(s[i]))
+        {
+            return false;
+        }
+    }
+    return true;
+}
+
+// Rotate character by key positions
+char rotate(char c, int key)
+{
+    if (isupper(c))
+    {
+        return ((c - 'A' + key) % 26) + 'A';
+    }
+    else if (islower(c))
+    {
+        return ((c - 'a' + key) % 26) + 'a';
+    }
+    else
+    {
+        return c;
+    }
 }
