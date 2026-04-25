@@ -2,10 +2,10 @@ height = 0
 
 while height < 1 or height > 8:
     try:
-        height = int(input("height: "))
+        height = int(input("Height: "))
     except ValueError:
-        print("enter a valid height")
+        print("Enter a valid height")
 
 for i in range(height):
-    # This prints: Spaces + Left Hashes + Middle Gap + Right Hashes
-    print(" " * (height - 1 - i) + "#" * (i + 1) + "  " + "#" * (i + 1))
+    # This prints only: Spaces + Left Hashes
+    print(" " * (height - 1 - i) + "#" * (i + 1))
