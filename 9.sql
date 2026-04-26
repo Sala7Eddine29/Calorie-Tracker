@@ -1,4 +1,4 @@
-SELECT name FROM people
+SELECT name, birth FROM people
 WHERE id IN (
     SELECT DISTINCT person_id
     FROM stars
