@@ -1,6 +1,7 @@
 import csv
 import sys
 
+
 def main():
 
     # Check for command-line usage
@@ -44,6 +45,7 @@ def main():
     print("No match")
     return
 
+
 def longest_match(sequence, subsequence):
     """Returns length of longest run of subsequence in sequence."""
 
@@ -80,6 +82,7 @@ def longest_match(sequence, subsequence):
 
     # After checking for runs at each character in sequence, return longest run found
     return longest_run
+
 
 if __name__ == "__main__":
     main()
