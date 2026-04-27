@@ -1,0 +1,23 @@
+body {
+    background-color: #f0f2f5;
+    font-size: 18px;
+}
+
+h1 {
+    font-weight: bold;
+    text-shadow: 2px 2px #cccccc;
+}
+
+.container {
+    border: 1px solid #dee2e6;
+    padding: 20px;
+}
+
+nav {
+    margin-bottom: 30px;
+}
+
+footer {
+    text-align: center;
+    color: gray;
+}

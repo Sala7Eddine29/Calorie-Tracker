@@ -1,0 +1,1 @@
+This website is a personal homepage built using the Bootstrap framework for a responsive layout and navigation. I used JavaScript to create an interactive greeting alert on the contact page.
