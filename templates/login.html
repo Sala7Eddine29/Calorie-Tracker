@@ -1,51 +1,17 @@
-@app.route("/register", methods=["GET", "POST"])
-def register():
-    """Register user"""
-    # Clear any existing session
-    session.clear()
+{% extends "layout.html" %}
 
-    if request.method == "POST":
-        # 1. Get form data
-        username = request.form.get("username")
-        password = request.form.get("password")
-        confirmation = request.form.get("confirmation")
+{% block title %}
+    Log In
+{% endblock %}
 
-        # 2. Validation: check for blank fields
-        if not username:
-            return apology("must provide username", 400)
-        elif not password:
-            return apology("must provide password", 400)
-        elif not confirmation:
-            return apology("must provide confirmation", 400)
-
-        # 3. Validation: check if passwords match
-        elif password != confirmation:
-            return apology("passwords do not match", 400)
-
-        # 4. Database: check if username already exists
-        # This is the fix for "registration rejects duplicate username"
-        rows = db.execute("SELECT * FROM users WHERE username = ?", username)
-        if len(rows) != 0:
-            return apology("username already taken", 400)
-
-        # 5. Success Path: Insert user and log them in
-        hash_value = generate_password_hash(password)
-
-        try:
-            # We get the ID of the new user to log them in automatically
-            user_id = db.execute("INSERT INTO users (username, hash) VALUES (?, ?)",
-                                 username, hash_value)
-
-            # Log the user in (Crucial for check50 success)
-            session["user_id"] = user_id
-
-            # Flash a success message and redirect (This gives the 200/302 status code)
-            flash("Registered!")
-            return redirect("/")
-
-        except:
-            return apology("registration error", 400)
-
-    else:
-        # User reached route via GET
-        return render_template("register.html")
+{% block main %}
+    <form action="/login" method="post">
+        <div class="mb-3">
+            <input autocomplete="off" autofocus class="form-control mx-auto w-auto" name="username" placeholder="Username" type="text">
+        </div>
+        <div class="mb-3">
+            <input class="form-control mx-auto w-auto" name="password" placeholder="Password" type="password">
+        </div>
+        <button class="btn btn-primary" type="submit">Log In</button>
+    </form>
+{% endblock %}
