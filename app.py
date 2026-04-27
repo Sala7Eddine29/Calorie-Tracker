@@ -112,36 +112,45 @@ def quote():
 @app.route("/register", methods=["GET", "POST"])
 def register():
     """Register user"""
+    # Clear any existing session
+    session.clear()
+
     if request.method == "POST":
         # Get data from form
         username = request.form.get("username")
         password = request.form.get("password")
         confirmation = request.form.get("confirmation")
 
-        # Validate submission
+        # Validation: Check for blank fields
         if not username:
             return apology("must provide username", 400)
         elif not password:
             return apology("must provide password", 400)
         elif not confirmation:
             return apology("must provide confirmation", 400)
+
+        # Validation: Check if passwords match
         elif password != confirmation:
             return apology("passwords do not match", 400)
 
-        # Check if username exists
-        rows = db.execute("SELECT * FROM users WHERE username = ?", username)
-        if len(rows) != 0:
-            return apology("username already taken", 400)
+        # Database Check: See if username is taken
+        existing_user = db.execute("SELECT * FROM users WHERE username = ?", username)
+        if len(existing_user) != 0:
+            return apology("username already exists", 400)
 
-        # Insert user into database
+        # Success: Hash password and Insert
         hash_value = generate_password_hash(password)
+
         try:
-            user_id = db.execute("INSERT INTO users (username, hash) VALUES (?, ?)", username, hash_value)
-            # Log the user in automatically
-            session["user_id"] = user_id
+            new_user_id = db.execute("INSERT INTO users (username, hash) VALUES (?, ?)",
+                                     username, hash_value)
+            # Log the user in and redirect
+            session["user_id"] = new_user_id
+            flash("Registered!")
             return redirect("/")
         except:
             return apology("registration error", 400)
+
     else:
         return render_template("register.html")
 
