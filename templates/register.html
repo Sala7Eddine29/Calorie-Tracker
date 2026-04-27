@@ -1,20 +1,38 @@
-{% extends "layout.html" %}
+@app.route("/register", methods=["GET", "POST"])
+def register():
+    """Register user"""
+    # Forget any user_id
+    session.clear()
 
-{% block title %}
-    Register
-{% endblock %}
+    if request.method == "POST":
+        username = request.form.get("username")
+        password = request.form.get("password")
+        confirmation = request.form.get("confirmation")
 
-{% block main %}
-    <form action="/register" method="post">
-        <div class="mb-3">
-            <input autocomplete="off" autofocus class="form-control mx-auto w-auto" name="username" placeholder="Username" type="text" required>
-        </div>
-        <div class="mb-3">
-            <input class="form-control mx-auto w-auto" name="password" placeholder="Password" type="password" required>
-        </div>
-        <div class="mb-3">
-            <input class="form-control mx-auto w-auto" name="confirmation" placeholder="Password (again)" type="password" required>
-        </div>
-        <button class="btn btn-primary" type="submit">Register</button>
-    </form>
-{% endblock %}
+        # 1. Ensure all fields are filled
+        if not username or not password or not confirmation:
+            return apology("all fields required", 400)
+
+        # 2. Ensure passwords match
+        if password != confirmation:
+            return apology("passwords must match", 400)
+
+        # 3. Hash password and insert
+        hash_pw = generate_password_hash(password)
+
+        try:
+            # db.execute returns the ID of the new row
+            user_id = db.execute("INSERT INTO users (username, hash) VALUES (?, ?)", username, hash_pw)
+        except:
+            # Triggers if username exists due to UNIQUE index
+            return apology("username taken", 400)
+
+        # 4. Remember which user has logged in (Crucial for "success" check)
+        session["user_id"] = user_id
+
+        # 5. Redirect user to home page
+        flash("Registered!")
+        return redirect("/")
+
+    else:
+        return render_template("register.html")
