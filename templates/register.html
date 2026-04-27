@@ -1,0 +1,39 @@
+@app.route("/register", methods=["GET", "POST"])
+def register():
+    """Register user"""
+    # Forget any user_id
+    session.clear()
+
+    if request.method == "POST":
+        username = request.form.get("username")
+        password = request.form.get("password")
+        confirmation = request.form.get("confirmation")
+
+        # Ensure all fields are submitted
+        if not username:
+            return apology("must provide username", 400)
+        elif not password:
+            return apology("must provide password", 400)
+        elif not confirmation:
+            return apology("must provide confirmation", 400)
+        elif password != confirmation:
+            return apology("passwords do not match", 400)
+
+        # Hash the password and insert into DB
+        hash_pw = generate_password_hash(password)
+
+        try:
+            # Insert user and get their new ID
+            user_id = db.execute("INSERT INTO users (username, hash) VALUES (?, ?)", username, hash_pw)
+        except ValueError:
+            return apology("username already exists", 400)
+
+        # Log the user in automatically
+        session["user_id"] = user_id
+
+        # Redirect to home page
+        flash("Registered!")
+        return redirect("/")
+
+    else:
+        return render_template("register.html")
