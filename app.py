@@ -36,7 +36,8 @@ def after_request(response):
 def index():
     """Show portfolio of stocks"""
     # Query for user's stock holdings
-    stocks = db.execute("SELECT symbol, SUM(shares) as total_shares FROM transactions WHERE user_id = ? GROUP BY symbol HAVING total_shares > 0", session["user_id"])
+    stocks = db.execute(
+        "SELECT symbol, SUM(shares) as total_shares FROM transactions WHERE user_id = ? GROUP BY symbol HAVING total_shares > 0", session["user_id"])
     cash = db.execute("SELECT cash FROM users WHERE id = ?", session["user_id"])[0]["cash"]
 
     total_value = cash
@@ -94,7 +95,8 @@ def buy():
 @login_required
 def history():
     """Show history of transactions"""
-    transactions = db.execute("SELECT * FROM transactions WHERE user_id = ? ORDER BY timestamp DESC", session["user_id"])
+    transactions = db.execute(
+        "SELECT * FROM transactions WHERE user_id = ? ORDER BY timestamp DESC", session["user_id"])
     return render_template("history.html", transactions=transactions)
 
 
@@ -169,7 +171,8 @@ def register():
             return apology("username already taken", 400)
 
         hash_value = generate_password_hash(password)
-        user_id = db.execute("INSERT INTO users (username, hash) VALUES (?, ?)", username, hash_value)
+        user_id = db.execute("INSERT INTO users (username, hash) VALUES (?, ?)",
+                             username, hash_value)
 
         session["user_id"] = user_id
         flash("Registered!")
@@ -189,7 +192,8 @@ def sell():
         if not symbol:
             return apology("must provide symbol", 400)
 
-        user_shares = db.execute("SELECT SUM(shares) as total FROM transactions WHERE user_id = ? AND symbol = ?", session["user_id"], symbol)[0]["total"]
+        user_shares = db.execute(
+            "SELECT SUM(shares) as total FROM transactions WHERE user_id = ? AND symbol = ?", session["user_id"], symbol)[0]["total"]
 
         if shares > user_shares:
             return apology("too many shares", 400)
@@ -197,10 +201,12 @@ def sell():
         stock = lookup(symbol)
         db.execute("INSERT INTO transactions (user_id, symbol, shares, price, type) VALUES (?, ?, ?, ?, ?)",
                    session["user_id"], symbol, -shares, stock["price"], "sell")
-        db.execute("UPDATE users SET cash = cash + ? WHERE id = ?", shares * stock["price"], session["user_id"])
+        db.execute("UPDATE users SET cash = cash + ? WHERE id = ?",
+                   shares * stock["price"], session["user_id"])
 
         flash("Sold!")
         return redirect("/")
     else:
-        symbols = db.execute("SELECT symbol FROM transactions WHERE user_id = ? GROUP BY symbol HAVING SUM(shares) > 0", session["user_id"])
+        symbols = db.execute(
+            "SELECT symbol FROM transactions WHERE user_id = ? GROUP BY symbol HAVING SUM(shares) > 0", session["user_id"])
         return render_template("sell.html", symbols=symbols)
