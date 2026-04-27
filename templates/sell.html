@@ -1,22 +1,51 @@
-{% extends "layout.html" %}
+@app.route("/register", methods=["GET", "POST"])
+def register():
+    """Register user"""
+    # Clear any existing session
+    session.clear()
 
-{% block title %}
-    Sell
-{% endblock %}
+    if request.method == "POST":
+        # Access form data
+        username = request.form.get("username")
+        password = request.form.get("password")
+        confirmation = request.form.get("confirmation")
 
-{% block main %}
-    <form action="/sell" method="post">
-        <div class="mb-3">
-            <select class="form-select mx-auto w-auto" name="symbol" required>
-                <option disabled selected value="">Symbol</option>
-                {% for stock in symbols %}
-                    <option value="{{ stock.symbol }}">{{ stock.symbol }}</option>
-                {% endfor %}
-            </select>
-        </div>
-        <div class="mb-3">
-            <input class="form-control mx-auto w-auto" name="shares" placeholder="Shares" type="text" required>
-        </div>
-        <button class="btn btn-primary" type="submit">Sell</button>
-    </form>
-{% endblock %}
+        # 1. Validation: Ensure no fields are blank
+        if not username:
+            return apology("must provide username", 400)
+        elif not password:
+            return apology("must provide password", 400)
+        elif not confirmation:
+            return apology("must provide confirmation", 400)
+
+        # 2. Validation: Ensure passwords match
+        elif password != confirmation:
+            return apology("passwords do not match", 400)
+
+        # 3. Database: Check if username already exists
+        # We do this BEFORE inserting to handle the duplicate error properly
+        rows = db.execute("SELECT * FROM users WHERE username = ?", username)
+        if len(rows) != 0:
+            return apology("username already taken", 400)
+
+        # 4. Security: Hash the password
+        hash_value = generate_password_hash(password)
+        
+        # 5. Insert: Create the new user
+        try:
+            # We save the returned ID to log them in automatically
+            user_id = db.execute("INSERT INTO users (username, hash) VALUES (?, ?)", 
+                                 username, hash_value)
+            
+            # 6. Log the user in
+            session["user_id"] = user_id
+
+            # 7. Success: Redirect to home (status 200/302)
+            flash("Registered!")
+            return redirect("/")
+        except:
+            return apology("registration error", 400)
+
+    else:
+        # User reached route via GET
+        return render_template("register.html")
