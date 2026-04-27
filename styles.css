@@ -1,21 +1,23 @@
 body {
-    background-color: #f8f9fa;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f0f2f5;
+    font-size: 18px;
 }
 
 h1 {
-    color: #2c3e50;
-    margin-bottom: 20px;
+    font-weight: bold;
+    text-shadow: 2px 2px #cccccc;
 }
 
 .container {
-    background-color: white;
-    padding: 30px;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    border: 1px solid #dee2e6;
+    padding: 20px;
+}
+
+nav {
+    margin-bottom: 30px;
 }
 
 footer {
-    color: #7f8c8d;
-    font-size: 0.9em;
+    text-align: center;
+    color: gray;
 }
