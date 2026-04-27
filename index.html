@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap" rel="stylesheet">
+        <link href="styles.css" rel="stylesheet">
+        <title>Trivia!</title>
+        <script src="script.js"></script>
+    </head>
+    <body>
+        <div class="header">
+            <h1>Trivia!</h1>
+        </div>
+
+        <div class="container">
+            <div class="section">
+                <h2>Part 1: Multiple Choice </h2>
+                <hr>
+                <h3>What is the approximate ratio of people to sheep in New Zealand?</h3>
+                <button class="incorrect">1:1</button>
+                <button class="incorrect">1:3</button>
+                <button class="correct">1:6</button>
+                <button class="incorrect">1:10</button>
+                <button class="incorrect">1:12</button>
+                <p id="feedback1"></p>
+            </div>
+
+            <div class="section">
+                <h2>Part 2: Free Response</h2>
+                <hr>
+                <h3>In which country is the Great Pyramid of Giza located?</h3>
+                <input type="text">
+                <button id="check">Check Answer</button>
+                <p id="feedback2"></p>
+            </div>
+        </div>
+    </body>
+</html>
