@@ -1,5 +1,5 @@
 CALORIE TRACKER PRO
-Video Demo: https://youtu.be/lmeBhZi_2Cc
+Video Demo: https://www.youtube.com/watch?v=OrSCjtDpsm0
 Name: Salah-Eddine Kanoun
 City / Country: Morocco
 GitHub Username: kanSal1229
